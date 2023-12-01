@@ -19,6 +19,7 @@ struct ContentView: View {
             
             HeaderView()
                 .shadow(radius: 5)
+                .environment(\.colorScheme, .light)
             HStack {
                 Text("\(orders.orderItems.count) orders")
                 Spacer()
