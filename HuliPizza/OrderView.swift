@@ -9,14 +9,14 @@ import SwiftUI
 
 
 struct OrderView: View {
-    @Binding var orders:[OrderItem]
+    @ObservedObject var orders: OrderModel
     var body: some View {
         VStack {
             ZStack(alignment:.top){
                 
                 
                 ScrollView{
-                    ForEach($orders){ order in
+                    ForEach($orders.orderItems){ order in
                         //Text(order.item.name)
                         OrderRowView(order: order)
                             .padding(4)
@@ -33,10 +33,10 @@ struct OrderView: View {
                         .font(.title)
                     Spacer()
                     Label{
-                        Text(59.99,format: .currency(code: "USD"))
+                        Text(orders.orderTotal,format: .currency(code: "USD"))
                     }
                 icon:{
-                    Image(systemName: orders.isEmpty ? "cart" : "cart.circle.fill")
+                    Image(systemName: orders.orderItems.isEmpty ? "cart" : "cart.circle.fill")
                     
                 }
                 }
@@ -45,7 +45,7 @@ struct OrderView: View {
             }
             .padding()
             Button("Delete Order"){
-                if !orders.isEmpty{orders.removeLast()}
+                if !orders.orderItems.isEmpty{orders.removeLast()}
             }
             .padding(5)
             .background(.regularMaterial,in:Capsule())
@@ -58,6 +58,6 @@ struct OrderView: View {
 
 struct OrderView_Previews: PreviewProvider {
     static var previews: some View {
-        OrderView(orders: .constant(testOrders))
+        OrderView(orders: OrderModel())
     }
 }
