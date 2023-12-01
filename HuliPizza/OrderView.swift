@@ -32,13 +32,7 @@ struct OrderView: View {
                     Text("Order Pizza")
                         .font(.title)
                     Spacer()
-                    Label{
-                        Text(orders.orderTotal,format: .currency(code: "USD"))
-                    }
-                icon:{
-                    Image(systemName: orders.orderItems.isEmpty ? "cart" : "cart.circle.fill")
                     
-                }
                 }
                 .padding()
                 .background(.ultraThinMaterial)

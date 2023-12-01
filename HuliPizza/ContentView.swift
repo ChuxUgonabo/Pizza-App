@@ -9,8 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     var menu:[MenuItem]
-//    @State private var orders: [OrderItem] = testOrders
-    
+   
     @StateObject var orders: OrderModel = OrderModel()
     @State private var showOrders:Bool = false
     @State private var selectedItem: MenuItem = noMenuItem
@@ -49,6 +48,7 @@ struct ContentView: View {
         }
         .padding()
         .background(.linearGradient(colors: [.cyan,Color("Surf"),Color("Sky"),.white], startPoint: .topLeading, endPoint: .bottom))
+        .environmentObject(orders)
     }
 }
 
