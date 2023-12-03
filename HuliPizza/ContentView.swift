@@ -20,17 +20,8 @@ struct ContentView: View {
             HeaderView()
                 .shadow(radius: 5)
                 .environment(\.colorScheme, .light)
-            HStack {
-                Text("\(orders.orderItems.count) orders")
-                Spacer()
-                Button{
-                    showOrders.toggle()
-                } label:{
-                    Image(systemName: showOrders ? "cart" : "menucard")
-                        
-                }
             
-            }
+            StatusBarView(showOrders: $showOrders)
             .foregroundStyle(.white)
             .font(.title2)
             if showOrders
