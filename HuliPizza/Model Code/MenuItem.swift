@@ -55,5 +55,7 @@ enum PizzaCrust: String,Codable,CaseIterable {
 /// A test MenuItem for previews while composing views
 let testMenuItem = MenuItem(id: 0, category: .italian, name: "Huli Chicken Pizza", description: "The classic pizza that started it all", crust: .neopolitan, price: 14.99, rating: 5)
 
+let testMenuItem2 = MenuItem(id: 1, category: .italian, name: "Test Huli Chicken Pizza", description: "TEST The classic pizza that started it all", crust: .calzone, price: 554.99, rating: 1)
+
 /// used when there is no Menu Item
 let noMenuItem = MenuItem(id: -1, category: .italian, name: "World Pizza with Aloha", description: "We're a small growing chain based in Honolulu, serivng pizzas from around the world and with Hawaiian influence.", crust: .neopolitan, price: 0, rating: 0)
