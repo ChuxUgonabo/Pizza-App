@@ -9,9 +9,10 @@ import SwiftUI
 
 struct ContentView: View {
     var menu:[MenuItem]
-   
+    
     @StateObject var orders: OrderModel = OrderModel()
     @State private var showOrders:Bool = false
+    @State private var showMenu:Bool = false
     @State private var selectedItem: MenuItem = noMenuItem
     
     var body: some View {
@@ -21,9 +22,9 @@ struct ContentView: View {
                 .shadow(radius: 5)
                 .environment(\.colorScheme, .light)
             
-            StatusBarView(showOrders: $showOrders)
-            .foregroundStyle(.white)
-            .font(.title2)
+            StatusBarView(showOrders: $showOrders, showMenu: $showMenu)
+                .foregroundStyle(.white)
+                .font(.title2)
             if showOrders
             {
                 OrderView(orders: orders)
@@ -33,7 +34,11 @@ struct ContentView: View {
                 MenuItemView(item: $selectedItem, orders: orders)
                     .padding(5)
                     .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 10))
-                MenuView(menu:menu, selectedItem: $selectedItem)
+                if showMenu {
+                    MenuGridView(menu: menu)
+                }else {
+                    MenuView(menu:menu, selectedItem: $selectedItem)
+                }
                 
             }
             Spacer()
@@ -47,7 +52,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(menu:MenuModel().menu)
-            
+        
     }
 }
 
