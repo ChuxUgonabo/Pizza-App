@@ -16,21 +16,15 @@ struct ContentView: View {
     @State private var selectedItem: MenuItem = noMenuItem
     
     var body: some View {
-        VStack {
-            
-            HeaderView()
-                .shadow(radius: 5)
-                .environment(\.colorScheme, .light)
-            
-            StatusBarView(showOrders: $showOrders, showMenu: $showMenu)
-                .foregroundStyle(.white)
-                .font(.title2)
-            if showOrders
-            {
-                OrderView(orders: orders)
-                    .cornerRadius(10)
-            }
-            else{
+        TabView {
+            VStack {
+                HeaderView()
+                    .shadow(radius: 5)
+                    .environment(\.colorScheme, .light)
+                
+                StatusBarView(showOrders: $showOrders, showMenu: $showMenu)
+                    .foregroundStyle(.white)
+                    .font(.title2)
                 MenuItemView(item: $selectedItem, orders: orders)
                     .padding(5)
                     .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 10))
@@ -40,8 +34,26 @@ struct ContentView: View {
                     MenuView(menu:menu, selectedItem: $selectedItem)
                 }
                 
+            }.tabItem {
+                Label("Menu", systemImage: "list.bullet")
             }
-            Spacer()
+            VStack {
+            
+            HeaderView()
+                .shadow(radius: 5)
+                .environment(\.colorScheme, .light)
+            
+            StatusBarView(showOrders: $showOrders, showMenu: $showMenu)
+                .foregroundStyle(.white)
+                .font(.title2)
+//            if showOrders
+//            {
+                OrderView(orders: orders)
+                    .cornerRadius(10)
+            }.tabItem {
+                Label("Order", systemImage: "cart")
+            }
+            
         }
         .padding()
         .background(.linearGradient(colors: [.cyan,Color("Surf"),Color("Sky"),.white], startPoint: .topLeading, endPoint: .bottom))
