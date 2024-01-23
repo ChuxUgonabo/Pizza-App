@@ -25,14 +25,15 @@ struct ContentView: View {
                 StatusBarView(showOrders: $showOrders, showMenu: $showMenu)
                     .foregroundStyle(.white)
                     .font(.title2)
-                MenuItemView(item: $selectedItem, orders: orders)
-                    .padding(5)
-                    .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 10))
-                if showMenu {
-                    MenuGridView(menu: menu)
-                }else {
-                    MenuView(menu:menu, selectedItem: $selectedItem)
-                }
+//                MenuItemView(item: $selectedItem, orders: orders)
+//                    .padding(5)
+//                    .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 10))
+//                if showMenu {
+//                    MenuGridView(menu: menu)
+//                }else {
+//                    MenuView(menu:menu, selectedItem: $selectedItem)
+//                }
+                MenuView2(menu: menu)
                 
             }.tabItem {
                 Label("Menu", systemImage: "list.bullet")
