@@ -1,14 +1,8 @@
 //
-//  OrderItem.swift
-//  HuliPizza
-//
-//  Created by Steven Lipton on 10/21/22.
-//
-
-import Foundation
+//  OrderItem.swift   import Foundation
 
 /// The basic unit of an order. Contains a menu item and user customization of that item.
-struct OrderItem:Identifiable{
+struct OrderItem:Identifiable, Hashable{
     var id:Int
     var item:MenuItem
     // User customizations of the order
