@@ -12,11 +12,12 @@ struct OrderView: View {
     @ObservedObject var orders: OrderModel
     var body: some View {
         VStack {
-                NavigationStack {
-                    List($orders.orderItems){ $order in
+            NavigationStack {
+                List{
+                    ForEach ($orders.orderItems){ $order in
                         //Text(order.item.name)
                         NavigationLink(value:order) {
-                        
+                            
                             OrderRowView(order: $order)
                                 .padding(4)
                                 .background(.regularMaterial,in:RoundedRectangle(cornerRadius: 10))
@@ -27,16 +28,22 @@ struct OrderView: View {
                             OrderDetailView(orderItem: $order, presentSheet: .constant(false), newOrder: .constant(false))
                         }.navigationTitle("Your Order")
                     }
-                    
+                    .onDelete { indexSet in
+                        orders.orderItems.remove(atOffsets: indexSet)
+                    }
+                    .onMove { source, destination in
+                        orders.orderItems.move(fromOffsets: source, toOffset: destination)
+                    }
                 }
-                .padding(.top,70)
-
-            Button("Delete Order"){
-                if !orders.orderItems.isEmpty{orders.removeLast()}
             }
-            .padding(5)
-            .background(.regularMaterial,in:Capsule())
-            .padding(7)
+//                .padding(.top,70)
+//
+//            Button("Delete Order"){
+//                if !orders.orderItems.isEmpty{orders.removeLast()}
+//            }
+//            .padding(5)
+//            .background(.regularMaterial,in:Capsule())
+//            .padding(7)
         }
         .background(.regularMaterial)
     }

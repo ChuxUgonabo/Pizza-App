@@ -74,7 +74,7 @@ struct MenuDetailView: View {
             HStack{
                 Picker(selection: $pizzaCrust ) {
                         ForEach(PizzaCrust.allCases,id:\.self){crust in
-                            Text(crust.rawValue).tag(crust)
+                            Text(crust.rawValue).tag(crust as PizzaCrust?)
                         }
                     } label: {
                         Text("Pizza Crust")
@@ -172,6 +172,10 @@ struct MenuDetailView: View {
             
         }
         .background(.linearGradient(colors: [.white,Color("Sky"),Color("Surf").opacity(0.3),Color("Surf")], startPoint: .topLeading, endPoint: .bottom))
+        .onChange(of: item) { item in
+            quantity = 1
+            pizzaCrust = item?.crust ?? PizzaCrust.newYork
+        }
     }
     
 }
