@@ -16,6 +16,9 @@ struct MenuDetailView: View {
     @State private  var quantity:Int = 1
     @State private var name:String = ""
     @State var orderItem = OrderItem(id: -99, item: noMenuItem)
+    @Environment(\.verticalSizeClass) private var vSizeClass
+    @Environment(\.horizontalSizeClass) private var hSizeClass
+
     func updateOrder(){
         orderItem.quantity = quantity
         orderItem.extraIngredients = doubleIngredient
@@ -65,7 +68,7 @@ struct MenuDetailView: View {
                 
             }
             
-            .frame(maxHeight:200)
+            .frame(maxHeight: (vSizeClass == .compact) || (hSizeClass == .compact) ? 100: 200)
             
             .background(.linearGradient(colors: [Color("Surf"),Color("Sky").opacity(0.1)], startPoint: .leading, endPoint: .trailing), in:Capsule())
             .shadow(color:.teal,radius: 5,x:8,y:8)
@@ -109,7 +112,7 @@ struct MenuDetailView: View {
             VStack{
                 HStack{
                     Text("Order for " + (name == "" ? "You" : name ) )
-                        .font(.largeTitle)
+                        .font( (vSizeClass == .compact) || (hSizeClass == .compact) ? .body : .largeTitle)
                     Spacer(minLength: 150)
                     Button{
                         orderItem = OrderItem(id: -999, item: item ?? noMenuItem)
@@ -117,7 +120,7 @@ struct MenuDetailView: View {
                         order.addOrder(orderItem: orderItem)
                     } label:{
                         Spacer()
-                        Text((item?.price ?? 0) * Double(quantity) ,format:.currency(code: "USD")).font(.title).bold()
+                        Text((item?.price ?? 0) * Double(quantity) ,format:.currency(code: "USD")).font( (vSizeClass == .compact) || (hSizeClass == .compact) ? .body : .title).bold()
                         Image(systemName: addedItem ? "cart.fill.badge.plus" : "cart.badge.plus")
                         Spacer()
                     }
@@ -130,22 +133,37 @@ struct MenuDetailView: View {
                 .padding()
                 .background(.thinMaterial, in: Capsule())
                 HStack(alignment:.top){
-                    VStack(alignment:.leading){
-                        Text(item?.name ?? "Huli Pizza")
-                            .font(.largeTitle)
-                        
-                        Text(pizzaCrust?.rawValue ?? "Neopolitan")
-                        Text( doubleIngredient ? "Double Toppings" : "")
-                        Text("\(quantity)" + (quantity == 1 ? " pizza" : " pizzas") )
+                    if vSizeClass != .compact {
+                        VStack(alignment:.leading){
+                            Text(item?.name ?? "Huli Pizza")
+                                .font( vSizeClass == .compact ? .body : .title)
+                            Text(pizzaCrust?.rawValue ?? "Neopolitan")
+                            Text( doubleIngredient ? "Double Toppings" : "")
+                            Text("\(quantity)" + (quantity == 1 ? " pizza" : " pizzas") )
                             TextField("Pizza for Who?", text:$name)
                                 .padding()
                             
-                        
+                        }
+                        .animation(.easeIn, value: doubleIngredient)
+                        .font( vSizeClass == .compact ? .body : .title)
+                        .padding()
+                        .padding(.trailing,20)
+                    }else {
+                        HStack(alignment:.top){
+                            Text(item?.name ?? "Huli Pizza")
+                                .font( vSizeClass == .compact ? .body : .title)
+                            Text(pizzaCrust?.rawValue ?? "Neopolitan")
+                            Text( doubleIngredient ? "Double Toppings" : "")
+                            Text("\(quantity)" + (quantity == 1 ? " pizza" : " pizzas") )
+                                TextField("Pizza for Who?", text:$name)
+                                    .padding()
+                        }
+                        .animation(.easeIn, value: doubleIngredient)
+                        .font( vSizeClass == .compact ? .body : .title)
+                        .padding()
+                        .padding(.trailing,20)
                     }
-                    .animation(.easeIn, value: doubleIngredient)
-                    .font(.title)
-                    .padding()
-                    .padding(.trailing,20)
+                    
                     if let image = UIImage(named: "\(item?.id ?? -1)_lg"){
                         Image(uiImage: image)
                             .resizable()
@@ -165,11 +183,8 @@ struct MenuDetailView: View {
                 Spacer()
                 
             }
-          
-            
-            
-            
-            
+            Spacer()
+
         }
         .background(.linearGradient(colors: [.white,Color("Sky"),Color("Surf").opacity(0.3),Color("Surf")], startPoint: .topLeading, endPoint: .bottom))
         .onChange(of: item) { item in
